@@ -1,0 +1,47 @@
+<div *ngIf="isLoading" style="text-align: center">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="showUpdateForm">
+  <bss-update-personal-details (showUpdateForm)="onCloseUpdateForm($event)" ></bss-update-personal-details>
+</div>
+<div *ngIf="!isLoading" class="container">
+  <h1>Customer Details</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="personal-details">
+        <a class="link" (click)="onOpenUpdateForm()" >Edit Personal Details</a>
+        <h2>Personal Details</h2>
+        <p><strong>First Name:</strong> {{customerData.first_name}}</p>
+        <p><strong>Middle Name:</strong> {{customerData.middle_name}}</p>
+        <p><strong>Last Name:</strong> {{customerData.last_name}}</p>
+        <p><strong>Date of Birth:</strong> {{customerData.DOB}}</p>
+        <p><strong>Place of Birth:</strong> {{customerData.POB}}</p>
+        <p><strong>Gender:</strong> {{customerData.gender}}</p>
+        <p><strong>Language:</strong> {{customerData.language}}</p>
+        <p><strong>Marital Status:</strong> {{customerData.marital_status}}</p>
+        <p><strong>Nationality:</strong> {{customerData.nationality}}</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="address-details">
+        <h2>Address Details</h2>
+        <ul>
+          <li *ngFor="let a of customerData.address" style="margin-top: 30px">
+            <strong>Apartment:</strong> {{a.apartment}}<br>
+            <strong>Building:</strong> {{a.building}}<br>
+            <strong>Country:</strong> {{a.country}}<br>
+            <strong>City:</strong> {{a.city}}<br>
+            <strong>Floor:</strong> {{a.floor}}<br>
+            <strong>Postal Code:</strong> {{a.postal_code}}<br>
+            <strong>State:</strong> {{a.state}}<br>
+            <strong>Street:</strong> {{a.street}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="button-container">
+<!--    <button class="btn btn-primary btn-lg mr-3">Edit Details</button>-->
+    <button class="btn btn-secondary btn-lg" [routerLink]="['']">Go Back</button>
+  </div>
+</div>

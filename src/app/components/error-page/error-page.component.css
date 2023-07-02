@@ -1,0 +1,24 @@
+body {
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+.error-container {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.error-code {
+  font-size: 100px;
+  font-weight: bold;
+  color: #dc3545;
+}
+
+.error-message {
+  font-size: 24px;
+  margin-top: 30px;
+}
+
+.back-button {
+  margin-top: 30px;
+}

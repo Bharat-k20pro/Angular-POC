@@ -1,0 +1,22 @@
+<bss-create-customer (showComponent)="onCloseComponent($event)" *ngIf="showCreateCustomer"></bss-create-customer>
+<div class="container">
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-group">
+      <label for="id-type">Id Type:</label>
+      <select id="id-type" class="form-control" name="idType" ngModel required>
+        <option value="passport">passport</option>
+        <option value="business-identity-code">business-identity-code</option>
+        <option value="driving-license">driving-license</option>
+        <option value="id-card">id-card</option>
+        <option value="personal-identity-code">personal-identity-code</option>
+        <option value="serial-number">serial-number</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="id-code">Id Code:</label>
+      <input type="text" id="id-code" class="form-control" placeholder="Enter id" name="idCode" ngModel required>
+    </div>
+    <button [disabled]="!f.valid" type="submit" class="submit-button">Get Details</button>
+    <button (click)="onCreateCustomer()" style="margin-top: 20px" type="button" class="btn btn-dark">Add Customer</button>
+  </form>
+</div>

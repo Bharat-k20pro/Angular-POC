@@ -1,0 +1,226 @@
+<div (click)="onClose()" class="backdrop"></div>
+<div class="alert-box scroll-container">
+  <div class="container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="createCustomerForm">
+      <h3>Identification Details</h3>
+
+      <div formGroupName="identificationDetails">
+        <div class="form-group">
+          <label for="idCode">Identification code:</label>
+          <input formControlName="idCode" type="text" id="idCode" class="form-control" name="idCode">
+        </div>
+
+        <div class="form-group">
+          <label for="idType">Identification type:</label>
+          <select formControlName="idType"  id="idType" class="form-control" name="idType" >
+            <option value="passport">passport</option>
+            <option value="business-identity-code">business-identity-code</option>
+            <option value="driving-license">driving-license</option>
+            <option value="id-card">id-card</option>
+            <option value="personal-identity-code">personal-identity-code</option>
+            <option value="serial-number">serial-number</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="idStartDate">Date of Issue:</label>
+          <input formControlName="startDate" type="date" id="idStartDate" class="form-control" name="idStarDate">
+        </div>
+
+        <div class="form-group">
+          <label for="idEndDate">Date of Expiry:</label>
+          <input formControlName="endDate" type="date" id="idEndDate" class="form-control" name="endDate" >
+        </div>
+      </div>
+
+      <hr>
+
+      <h3>Personal Details:</h3>
+
+      <div formGroupName="individualDetails">
+        <div class="form-group">
+          <label for="givenName">First name:</label>
+          <input formControlName="givenName" type="text" id="givenName" class="form-control" name="givenName">
+        </div>
+
+
+        <div class="form-group">
+          <label for="familyName">Last name:</label>
+          <input formControlName="familyName" type="text" id="familyName" class="form-control" name="familyName">
+        </div>
+      </div>
+
+      <hr>
+
+      <h3>Contact Details</h3>
+
+      <div formGroupName="contactDetails">
+
+        <div class="form-group">
+          <label for="role">Role:</label>
+          <select formControlName="role" id="role" class="form-control" name="role" >
+            <option value="billing">billing</option>
+            <option value="delivery">delivery</option>
+            <option value="home">home</option>
+            <option value="installation">installation</option>
+            <option value="marketing">marketing</option>
+            <option value="primary">primary</option>
+            <option value="work">work</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="apartment">Apartment:</label>
+          <input formControlName="apartment" type="text" id="apartment" class="form-control" name="apartment" >
+        </div>
+        <div class="form-group">
+          <label for="city">City:</label>
+          <input formControlName="city" type="text" id="city" class="form-control" name="city">
+        </div>
+        <div class="form-group">
+          <label for="country">Country:</label>
+          <select formControlName="country" id="country" class="form-control" name="country">
+            <option value="IN">India</option>
+            <option value="FI">Finland</option>
+            <option value="SW">Sweden</option>
+            <option value="ES">Spain</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="street">Street:</label>
+          <input formControlName="street" type="text" id="street" class="form-control" name="street" >
+        </div>
+        <div class="form-group">
+          <label for="postalCode">Postal Code:</label>
+          <input formControlName="postalCode" type="text" id="postalCode" class="form-control" name="postalCode">
+        </div>
+        <div class="form-group">
+          <label for="startDate">Date of Issue:</label>
+          <input formControlName="startDate" type="date" id="startDate" class="form-control" name="startDate">
+        </div>
+          <hr>
+      </div>
+
+      <button style="margin-top: 20px" [disabled]="!createCustomerForm.valid" type="submit" class="submit-button">Add Customer</button>
+    </form>
+  </div>
+</div>
+
+<!--<div formArrayName="contactDetails">-->
+<!--  <div-->
+<!--    *ngFor="let cmCtrl of controls; let i = index"-->
+<!--    [formArrayName]="i"-->
+<!--  >-->
+
+<!--    <div class="form-group">-->
+<!--      <label for="role">Role:</label>-->
+<!--      <select formControlName="role" id="role" class="form-control" name="role" >-->
+<!--        <option value="billing">billing</option>-->
+<!--        <option value="delivery">delivery</option>-->
+<!--        <option value="home">home</option>-->
+<!--        <option value="installation">installation</option>-->
+<!--        <option value="marketing">marketing</option>-->
+<!--        <option value="primary">primary</option>-->
+<!--        <option value="work">work</option>-->
+<!--      </select>-->
+<!--    </div>-->
+
+<!--    <div class="form-group">-->
+<!--      <label for="contactType">Contact Type:</label>-->
+<!--      <select (change)="onSelectContactType(i)" formControlName="contactType" id="contactType" class="form-control" name="contactType" [(ngModel)]="contactType[i]">-->
+<!--        <option value="email">email</option>-->
+<!--        <option value="postal-address">postal-address</option>-->
+<!--        <option value="telephone-number">telephone-number</option>-->
+<!--      </select>-->
+<!--    </div>-->
+
+<!--    <div *ngIf="contactType[i] === 'email'">-->
+<!--      <div class="form-group">-->
+<!--        <label for="email">Email:</label>-->
+<!--        <input formControlName="email" type="email" id="email" class="form-control" name="email">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="emailStartDate">Date of Issue:</label>-->
+<!--        <input formControlName="emailStartDate" type="date" id="emailStartDate" class="form-control" name="emailStartDate">-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div *ngIf="contactType[i] === 'postal-address'">-->
+<!--      <div class="form-group">-->
+<!--        <label for="apartment">Apartment:</label>-->
+<!--        <input formControlName="apartment" type="text" id="apartment" class="form-control" name="apartment" >-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="building">Building:</label>-->
+<!--        <input formControlName="building" type="text" id="building" class="form-control" name="building">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="city">City:</label>-->
+<!--        <input formControlName="city" type="text" id="city" class="form-control" name="city">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="country">Country:</label>-->
+<!--        <select formControlName="country" id="country" class="form-control" name="country">-->
+<!--          <option value="IND">India</option>-->
+<!--          <option value="FIN">Finland</option>-->
+<!--          <option value="SWE">Sweden</option>-->
+<!--          <option value="ESP">Spain</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="floor">Floor:</label>-->
+<!--        <input formControlName="floor" type="text" id="floor" class="form-control" name="floor">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="state">State:</label>-->
+<!--        <input formControlName="state" type="text" id="state" class="form-control" name="state" >-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="postalCode">Postal Code:</label>-->
+<!--        <input formControlName="postalCode" type="text" id="postalCode" class="form-control" name="postalCode">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="street">Street:</label>-->
+<!--        <input formControlName="street" type="text" id="street" class="form-control" name="street">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="postalStartDate">Date of Issue:</label>-->
+<!--        <input formControlName="postalStartDate" type="date" id="postalStartDate" class="form-control" name="postalStartDate">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="postalEndDate">Date of Issue:</label>-->
+<!--        <input formControlName="postalEndDate" type="date" id="postalEndDate" class="form-control" name="postalEndDate">-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div *ngIf="contactType[i] === 'telephone-number'">-->
+<!--      <div class="form-group">-->
+<!--        <label for="number">Number:</label>-->
+<!--        <input formControlName="number" type="text" id="number" class="form-control" name="number">-->
+<!--      </div>-->
+
+<!--      <div class="form-group">-->
+<!--        <label for="numberType">Number Type:</label>-->
+<!--        <select formControlName="numberType" id="numberType" class="form-control" name="numberType">-->
+<!--          <option value="fax">fax</option>-->
+<!--          <option value="fixed-line">fixed-line</option>-->
+<!--          <option value="mobile">mobile</option>-->
+<!--          <option value="other">other</option>-->
+<!--          <option value="satellite">satellite</option>-->
+<!--        </select>-->
+<!--      </div>-->
+
+<!--      <div class="form-group">-->
+<!--        <label for="teleStartDate">Date of Issue:</label>-->
+<!--        <input formControlName="teleStartDate" type="date" id="teleStartDate" class="form-control" name="teleStarDate">-->
+<!--      </div>-->
+
+<!--    </div>-->
+
+<!--    <hr>-->
+
+<!--  </div>-->
+
+<!--  <button (click)="onAddContact()" type="button" class="btn btn-dark">+</button>-->
+
+<!--</div>-->

@@ -192,8 +192,8 @@ export class CustomerDetailsService {
     const individuals = included.find((inData: any) => inData.type == 'individuals')
     const customerData = new CustomerDetailsModel(
       individuals.id,
-      individuals.attributes['data-of-birth'] ? individuals.attributes['data-of-birth'] : '',
-      individuals.attributes['place-of-birth'] ? individuals.attributes['data-of-birth'] : '',
+      individuals.attributes['date-of-birth'] ? individuals.attributes['date-of-birth'] : '',
+      individuals.attributes['place-of-birth'] ? individuals.attributes['place-of-birth'] : '',
       addresses,
       individuals.attributes['given-name'] ? individuals.attributes['given-name'] : '',
       individuals.attributes['gender'] ? individuals.attributes['gender'] : '',
@@ -231,9 +231,6 @@ export class CustomerDetailsService {
     const individual_uuid = uuidv4()
     const identifications_uuid = uuidv4()
     const contact_media_uuid = uuidv4()
-    //console.log(this.datePipe.transform(new Date(data.identificationDetails.startDate), "yyyy-MM-dd"))
-    console.log(data.contactDetails.startDate)
-    console.log(data.identificationDetails.startDate, data.identificationDetails.endDate)
 
     const body = {
       "data": {

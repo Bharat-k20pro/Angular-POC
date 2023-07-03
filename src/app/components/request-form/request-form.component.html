@@ -1,5 +1,6 @@
-<bss-create-customer (showComponent)="onCloseComponent($event)" *ngIf="showCreateCustomer"></bss-create-customer>
+<bss-create-customer (message)="onShowAlert($event)" (showComponent)="onCloseComponent($event)" *ngIf="showCreateCustomer"></bss-create-customer>
 <div class="container">
+  <bss-message-box [message]="message" (showMessage)="onRemoveAlert()" *ngIf="message!==''"></bss-message-box>
   <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <div class="form-group">
       <label for="id-type">Id Type:</label>

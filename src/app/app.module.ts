@@ -11,6 +11,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { UpdatePersonalDetailsComponent } from './components/update-personal-details/update-personal-details.component';
+import { MessageBoxComponent } from './components/message-box/message-box.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { UpdatePersonalDetailsComponent } from './components/update-personal-det
     ErrorPageComponent,
     LoadingSpinnerComponent,
     UpdatePersonalDetailsComponent,
+    MessageBoxComponent,
   ],
   imports: [
     BrowserModule,

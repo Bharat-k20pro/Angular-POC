@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 })
 export class RequestFormComponent {
   showCreateCustomer = false
+  message = ''
   constructor(private customerDetailsService: CustomerDetailsService, private router: Router) {
   }
   onSubmit(form: NgForm) {
@@ -17,7 +18,6 @@ export class RequestFormComponent {
     const idCode = form.value.idCode
 
     this.router.navigate(['details', idType, idCode])
-
     form.reset()
   }
 
@@ -28,5 +28,13 @@ export class RequestFormComponent {
 
   onCloseComponent(event: any) {
     this.showCreateCustomer = event
+  }
+
+  onRemoveAlert() {
+    this.message = ''
+  }
+
+  onShowAlert(event: any) {
+    this.message = event
   }
 }

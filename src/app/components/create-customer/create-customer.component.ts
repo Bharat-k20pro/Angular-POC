@@ -11,6 +11,8 @@ import {Router} from "@angular/router";
 export class CreateCustomerComponent implements OnInit {
 
   @Output() showComponent = new EventEmitter<boolean>(true)
+  @Output() message = new EventEmitter<string>()
+
   createCustomerForm: FormGroup
   // contactType: string[] = []
 
@@ -47,12 +49,18 @@ export class CreateCustomerComponent implements OnInit {
     this.customerDetailsService.createCustomerDetails(this.createCustomerForm.value)
       .subscribe(res => {
         this.router.navigate(['/'])
+        this.message.emit(`Customer with ID-TYPE: ${this.createCustomerForm.value.identificationDetails.idType} and ID: ${this.createCustomerForm.value.identificationDetails.idCode} is created!`)
         this.onClose()
     }, error => {
         this.router.navigate(['/not-found', error.error])
         this.onClose()
     })
   }
+
+  // onTest() {
+  //   console.log(this.createCustomerForm.value)
+  //   this.message.emit(`Customer with ID-TYPE: ${this.createCustomerForm.value.identificationDetails.idType} and ID: ${this.createCustomerForm.value.identificationDetails.idCode} is created!`)
+  // }
 
   onClose() {
     this.showComponent.emit(false)

@@ -330,6 +330,83 @@ export class CustomerDetailsService {
     )
   }
 
+  createAccount(data: any) {
+    const account_uuid = uuidv4()
+    const pr_uuid = uuidv4()
+
+    let body: any = {
+      "data": {
+        "type": "customer-accounts-create",
+        "relationships": {
+          "new-instance": {
+            "data": {
+              "type": "customer-accounts",
+              "id": account_uuid
+            }
+          }
+        }
+      },
+      "included": [
+        {
+          "type": "customer-accounts",
+          "id": account_uuid,
+          "attributes": {
+            "name": data.name,
+            "account-type": data.accountType,
+            "market-type": data.marketType,
+            "billing-permissions": {
+              "billing-allowed": "true",
+              "service-number-itemization-allowed": "false",
+              "overtime-interest-allowed": "false"
+            },
+            "debt-collection-permissions": {
+              "debt-collection-allowed": "yes"
+            },
+            "valid-for": {
+              "meta": {
+                "type": "valid-for-datetime"
+              },
+              "start-datetime": data.startDate + 'T00:00:00.000Z',
+              "end-datetime": data.endDate + 'T00:00:00.000Z'
+            }
+          },
+          "relationships": {
+            "related-parties": {
+              "data": [
+                { "type": "party-relationships", "id": pr_uuid }
+              ]
+            }
+          }
+        },
+        {
+          "type": "party-relationships",
+          "id": pr_uuid,
+          "attributes": {
+            "valid-for": {
+              "meta": {
+                "type": "valid-for-datetime"
+              },
+              "start-datetime": data.startDate + 'T00:00:00.000Z'
+            }
+          },
+          "relationships": {
+            "party": {
+              "data": {
+                "type": "individuals",
+                "id": this.customerData.uuid
+              }
+            }
+          }
+        }
+      ]
+    }
+
+    return this.http.post(
+      'https://bssapi-qrp-demo.qvantel.systems/api/customer-accounts-create',
+      body
+    )
+  }
+
   updateCustomerDetails(data: any) {
     let body: any = {
       "data": {

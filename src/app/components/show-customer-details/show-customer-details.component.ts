@@ -11,6 +11,7 @@ import {CustomerDetailsModel} from "../../models/customer-details.model";
 export class ShowCustomerDetailsComponent implements OnInit {
 
   showUpdateForm = false
+  showAccountForm = false
   customerData: CustomerDetailsModel
   isLoading = false
   constructor(private customerDetailsService: CustomerDetailsService,
@@ -37,5 +38,13 @@ export class ShowCustomerDetailsComponent implements OnInit {
 
   onCloseUpdateForm(event: any) {
     this.showUpdateForm = event
+  }
+
+  onOpenAccountForm() {
+    this.showAccountForm = true
+  }
+
+  onCloseAccountForm(event: any) {
+    this.showAccountForm = event
   }
 }

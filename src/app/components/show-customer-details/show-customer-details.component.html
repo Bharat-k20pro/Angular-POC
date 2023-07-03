@@ -4,6 +4,9 @@
 <div *ngIf="showUpdateForm">
   <bss-update-personal-details (showUpdateForm)="onCloseUpdateForm($event)" ></bss-update-personal-details>
 </div>
+<div *ngIf="showAccountForm">
+  <bss-create-account (showAccountForm)="onCloseAccountForm($event)" ></bss-create-account>
+</div>
 <div *ngIf="!isLoading" class="container">
   <h1>Customer Details</h1>
   <div class="row">
@@ -50,6 +53,7 @@
             <strong>Market Type:</strong> {{a.marketType}}<br>
           </li>
         </ul>
+        <button (click)="onOpenAccountForm()" class="btn btn-dark btn-sm" >+</button>
       </div>
     </div>
   </div>

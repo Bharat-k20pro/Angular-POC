@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CustomerDetailsService} from "../../services/customer-details.service";
+import {CustomerDetailsService} from "../../../services/customer-details.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -41,6 +41,9 @@ export class UpdatePersonalDetailsComponent implements OnInit {
         console.log(res)
         this.showUpdateForm.emit(false)
         alert('Customer is updated. Reload the page to get changes!')
+      }, error => {
+        this.router.navigate(['/not-found', error.error])
+        this.showUpdateForm.emit(false)
       })
   }
 

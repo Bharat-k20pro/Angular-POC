@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CustomerDetailsService} from "../../services/customer-details.service";
+import {CustomerDetailsService} from "../../../services/customer-details.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 

@@ -161,6 +161,9 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {catchError, Subject, throwError, map} from 'rxjs'
 import {Router} from "@angular/router";
 import { v4 as uuidv4 } from 'uuid';
+import {animate} from "@angular/animations";
+import {AddressDetailsModel} from "../models/address-details.model";
+import {AccountDetailsModel} from "../models/account-details.model";
 
 @Injectable({
   providedIn: 'root'
@@ -177,16 +180,26 @@ export class CustomerDetailsService {
     const contactMedias = included.filter((inData: any) => inData.type == 'contact-media')
     const postalAddresses = contactMedias.filter((contactMedia: any) => contactMedia.attributes['medium-type'] === 'postal-address')
     const addresses = postalAddresses.map((postalAddress: any) => {
-      return {
-        'apartment': postalAddress.attributes.medium['apartment'] ? postalAddress.attributes.medium['apartment'] : '',
-        'building': postalAddress.attributes.medium['building'] ? postalAddress.attributes.medium['building'] : '',
-        'city': postalAddress.attributes.medium['city'] ? postalAddress.attributes.medium['city'] : '',
-        'country': postalAddress.attributes.medium['country'] ? postalAddress.attributes.medium['country'] : '',
-        'floor': postalAddress.attributes.medium['floor'] ? postalAddress.attributes.medium['floor'] : '',
-        'postal_code': postalAddress.attributes.medium['postal-code'] ? postalAddress.attributes.medium['postal-code'] : '',
-        'state': postalAddress.attributes.medium['state'] ? postalAddress.attributes.medium['state'] : '',
-        'street': postalAddress.attributes.medium['street'] ? postalAddress.attributes.medium['street'] : ''
-      }
+      return new AddressDetailsModel(
+        postalAddress.attributes.medium['apartment'] ? postalAddress.attributes.medium['apartment'] : '',
+        postalAddress.attributes.medium['building'] ? postalAddress.attributes.medium['building'] : '',
+        postalAddress.attributes.medium['city'] ? postalAddress.attributes.medium['city'] : '',
+        postalAddress.attributes.medium['country'] ? postalAddress.attributes.medium['country'] : '',
+        postalAddress.attributes.medium['floor'] ? postalAddress.attributes.medium['floor'] : '',
+        postalAddress.attributes.medium['postal-code'] ? postalAddress.attributes.medium['postal-code'] : '',
+        postalAddress.attributes.medium['state'] ? postalAddress.attributes.medium['state'] : '',
+        postalAddress.attributes.medium['street'] ? postalAddress.attributes.medium['street'] : ''
+    )
+    })
+
+    const customerAccounts = included.filter((inData: any) => inData.type === 'customer-accounts')
+    const accounts = customerAccounts.map((customerAccount: any) => {
+      return new AccountDetailsModel(
+        customerAccount.attributes['account-id'] ? customerAccount.attributes['account-id'] : '',
+        customerAccount.attributes['name'] ? customerAccount.attributes['name'] : '',
+        customerAccount.attributes['account-type'] ? customerAccount.attributes['account-type'] : '',
+        customerAccount.attributes['market-type'] ? customerAccount.attributes['market-type'] : '',
+      )
     })
 
     const individuals = included.find((inData: any) => inData.type == 'individuals')
@@ -195,6 +208,7 @@ export class CustomerDetailsService {
       individuals.attributes['date-of-birth'] ? individuals.attributes['date-of-birth'] : '',
       individuals.attributes['place-of-birth'] ? individuals.attributes['place-of-birth'] : '',
       addresses,
+      accounts,
       individuals.attributes['given-name'] ? individuals.attributes['given-name'] : '',
       individuals.attributes['gender'] ? individuals.attributes['gender'] : '',
       individuals.attributes['language'] ? individuals.attributes['language'] : '',
@@ -210,7 +224,7 @@ export class CustomerDetailsService {
     idParams = idParams.append('id', idCode)
 
     return this.http.get<any>(
-      `https://bssapi-qrp-demo.qvantel.systems/api/identifications?filter=%28AND%20%28EQ%20identification-id%20%22${idCode}%22%29%20%28EQ%20identification-type%20%22${idType}%22%29%29&include=party.contact-media`,
+      `https://bssapi-qrp-demo.qvantel.systems/api/identifications?filter=%28AND%20%28EQ%20identification-id%20%22${idCode}%22%29%20%28EQ%20identification-type%20%22${idType}%22%29%29&include=party.contact-media,party.customer-accounts`,
       {
         params: idParams,
       }

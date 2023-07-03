@@ -1,10 +1,12 @@
 import {AddressDetailsModel} from "./address-details.model";
+import {AccountDetailsModel} from "./account-details.model";
 
 export class CustomerDetailsModel {
   public uuid: string
   public DOB: string
   public POB: string
   public address: AddressDetailsModel[]
+  public accounts: AccountDetailsModel[]
   public first_name: string
   public gender: string
   public language: string
@@ -18,6 +20,7 @@ export class CustomerDetailsModel {
     dob: string,
     pob: string,
     address: AddressDetailsModel[],
+    accounts: AccountDetailsModel[],
     firstName: string,
     gender: string,
     language: string,
@@ -30,6 +33,7 @@ export class CustomerDetailsModel {
   this.DOB = dob
   this.POB = pob
   this.address = address
+  this.accounts = accounts
   this.first_name = firstName
   this.gender = gender
   this.language = language

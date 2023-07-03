@@ -7,7 +7,7 @@
 <div *ngIf="!isLoading" class="container">
   <h1>Customer Details</h1>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <div class="personal-details">
         <a class="link" (click)="onOpenUpdateForm()" >Edit Personal Details</a>
         <h2>Personal Details</h2>
@@ -22,7 +22,7 @@
         <p><strong>Nationality:</strong> {{customerData.nationality}}</p>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
       <div class="address-details">
         <h2>Address Details</h2>
         <ul>
@@ -35,6 +35,19 @@
             <strong>Postal Code:</strong> {{a.postal_code}}<br>
             <strong>State:</strong> {{a.state}}<br>
             <strong>Street:</strong> {{a.street}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="address-details">
+        <h2>Account Details</h2>
+        <ul>
+          <li *ngFor="let a of customerData.accounts" style="margin-top: 30px">
+            <strong>Id:</strong> {{a.accountId}}<br>
+            <strong>Name:</strong> {{a.name}}<br>
+            <strong>Type:</strong> {{a.accountType}}<br>
+            <strong>Market Type:</strong> {{a.marketType}}<br>
           </li>
         </ul>
       </div>

@@ -17,8 +17,7 @@ export class CustomerDetailsService {
   customerChanged = new Subject<CustomerDetailsModel>()
   customerData: CustomerDetailsModel
   constructor(private http: HttpClient,
-              private router: Router,
-              private route: ActivatedRoute) { }
+              private router: Router) { }
 
   private convertToCustomerData(data: any): CustomerDetailsModel {
     const included = data['included']
@@ -73,6 +72,8 @@ export class CustomerDetailsService {
   getCustomerDetails(idType: string, idCode: string) {
     let idParams = new HttpParams()
     idParams = idParams.append('id', idCode)
+
+    console.log(idType, idCode)
 
     return this.http.get<any>(
       `https://bssapi-qrp-demo.qvantel.systems/api/identifications?filter=%28AND%20%28EQ%20identification-id%20%22${idCode}%22%29%20%28EQ%20identification-type%20%22${idType}%22%29%29&include=party.contact-media,party.customer-accounts`,
@@ -312,7 +313,7 @@ export class CustomerDetailsService {
   }
 
   deleteContact(i: number) {
-    this.http.post(
+    return this.http.post(
       'https://bssapi-qrp-demo.qvantel.systems/api/contact-media-terminate',
       {
         "data": {
@@ -328,16 +329,7 @@ export class CustomerDetailsService {
           }
         }
       }
-    ).subscribe(res => {
-      console.log(res)
-      this.route.params
-        .subscribe((params: Params) => {
-          this.getCustomerDetails(params['idType'], params['idCode'])
-        })
-    }, error => {
-      console.log(error)
-      this.router.navigate(['/not-found', error.error])
-    })
+    )
   }
 
   updateAccount(data: any, i: number) {

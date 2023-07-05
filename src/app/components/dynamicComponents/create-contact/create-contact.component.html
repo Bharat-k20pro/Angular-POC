@@ -45,7 +45,7 @@
       </div>
       <div class="form-group">
         <label for="startDate">Date of Issue:</label>
-        <input formControlName="startDate" type="date" id="startDate" class="form-control" name="startDate">
+        <input formControlName="startDate" type="date" [max]="maxDate" id="startDate" class="form-control" name="startDate">
       </div>
 
       <button [disabled]="!contactForm.valid" style="margin-top: 20px" type="submit" class="submit-button">Add Address</button>

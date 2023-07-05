@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomerDetailsService} from "../../../services/customer-details.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'bss-create-contact',
@@ -11,12 +12,14 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 export class CreateContactComponent implements OnInit {
   @Output() showContactForm = new EventEmitter<boolean>()
   contactForm: FormGroup
-
+  maxDate: any
   constructor(private customerDetailsService: CustomerDetailsService,
               private router: Router,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private datePipe: DatePipe
   ) {}
   ngOnInit() {
+    this.maxDate = this.datePipe.transform(new Date(), 'yyy-MM-dd')
     this.contactForm = new FormGroup({
       'role': new FormControl(null, Validators.required),
       'apartment': new FormControl(null, Validators.required),
@@ -49,4 +52,5 @@ export class CreateContactComponent implements OnInit {
   onCloseUpdateForm() {
     this.showContactForm.emit(false)
   }
+
 }

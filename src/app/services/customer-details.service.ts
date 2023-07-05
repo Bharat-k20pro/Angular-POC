@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CustomerDetailsModel } from '../models/customer-details.model';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {catchError, Subject, throwError, map} from 'rxjs'
-import {Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import { v4 as uuidv4 } from 'uuid';
 import {AddressDetailsModel} from "../models/address-details.model";
 import {AccountDetailsModel} from "../models/account-details.model";
@@ -16,7 +16,9 @@ export class CustomerDetailsService {
   API_URL = 'https://bssapi-qrp-demo.qvantel.systems/api/identifications?filter=%28AND%20%28EQ%20identification-id%20%229898989898%22%29%20%28EQ%20identification-type%20%22passport%22%29%29&include=party.contact-media';
   customerChanged = new Subject<CustomerDetailsModel>()
   customerData: CustomerDetailsModel
-  constructor(private http: HttpClient, private router: Router, private datePipe: DatePipe) { }
+  constructor(private http: HttpClient,
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   private convertToCustomerData(data: any): CustomerDetailsModel {
     const included = data['included']
@@ -328,7 +330,10 @@ export class CustomerDetailsService {
       }
     ).subscribe(res => {
       console.log(res)
-      alert("Contact is deleted. Reload the page to get changes!")
+      this.route.params
+        .subscribe((params: Params) => {
+          this.getCustomerDetails(params['idType'], params['idCode'])
+        })
     }, error => {
       console.log(error)
       this.router.navigate(['/not-found', error.error])

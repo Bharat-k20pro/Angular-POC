@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomerDetailsService} from "../../../services/customer-details.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 @Component({
   selector: 'bss-update-account',
@@ -15,6 +15,7 @@ export class UpdateAccountComponent implements OnInit {
 
   constructor(private customerDetailsService: CustomerDetailsService,
               private router: Router,
+              private route: ActivatedRoute
   ) {
   }
   ngOnInit() {
@@ -32,7 +33,11 @@ export class UpdateAccountComponent implements OnInit {
       .subscribe(res => {
         console.log(res)
         this.showUpdateAccountForm.emit(false)
-        alert('Customer is updated. Reload the page to get changes!')
+
+        this.route.params
+          .subscribe((params: Params) => {
+            this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
+          })
       }, error => {
         console.log(error)
         this.router.navigate(['/not-found', error.error])

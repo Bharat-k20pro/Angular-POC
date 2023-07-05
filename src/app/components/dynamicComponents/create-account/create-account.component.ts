@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomerDetailsService} from "../../../services/customer-details.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 @Component({
   selector: 'bss-create-account',
@@ -31,7 +31,11 @@ export class CreateAccountComponent implements OnInit {
       .subscribe(res => {
         console.log(res)
         this.showAccountForm.emit(false)
-        alert('Account is added. Reload the page to get changes!')
+
+        this.route.params
+          .subscribe((params: Params) => {
+            this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
+          })
       },error => {
         console.log(error)
         this.router.navigate(['/not-found', error.error])

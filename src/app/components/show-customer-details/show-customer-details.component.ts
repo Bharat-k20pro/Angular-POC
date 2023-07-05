@@ -63,6 +63,10 @@ export class ShowCustomerDetailsComponent implements OnInit {
 
   onDeleteContact(i: number) {
     this.customerDetailsService.deleteContact(i)
+    this.route.params
+      .subscribe((params: Params) => {
+        this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
+      })
   }
 
   onOpenAccountUpdateForm(i: number) {

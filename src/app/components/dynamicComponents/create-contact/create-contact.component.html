@@ -3,7 +3,7 @@
   <div class="container">
     <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
 
-      <h3>Account Details:</h3>
+      <h3>Address Details:</h3>
 
       <div class="form-group">
         <label for="role">Role:</label>
@@ -48,7 +48,7 @@
         <input formControlName="startDate" type="date" id="startDate" class="form-control" name="startDate">
       </div>
 
-      <button [disabled]="!contactForm.valid" style="margin-top: 20px" type="submit" class="submit-button">Add Account</button>
+      <button [disabled]="!contactForm.valid" style="margin-top: 20px" type="submit" class="submit-button">Add Address</button>
     </form>
   </div>
 </div>

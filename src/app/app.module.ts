@@ -13,6 +13,9 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { UpdatePersonalDetailsComponent } from './components/dynamicComponents/update-personal-details/update-personal-details.component';
 import { MessageBoxComponent } from './components/dynamicComponents/message-box/message-box.component';
 import { CreateAccountComponent } from './components/dynamicComponents/create-account/create-account.component';
+import { CreateContactComponent } from './components/dynamicComponents/create-contact/create-contact.component';
+import {DatePipe} from "@angular/common";
+import { UpdateAccountComponent } from './components/dynamicComponents/update-account/update-account.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,8 @@ import { CreateAccountComponent } from './components/dynamicComponents/create-ac
     UpdatePersonalDetailsComponent,
     MessageBoxComponent,
     CreateAccountComponent,
+    CreateContactComponent,
+    UpdateAccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,7 @@ import { CreateAccountComponent } from './components/dynamicComponents/create-ac
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

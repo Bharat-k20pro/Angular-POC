@@ -1,0 +1,40 @@
+<div (click)="onCloseUpdateForm()" class="backdrop"></div>
+<div class="alert-box scroll-container">
+  <div class="container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="updateAccountForm">
+
+      <h3>Account Details:</h3>
+
+      <div class="form-group">
+        <label for="accountType">Account type:</label>
+        <select formControlName="accountType" id="accountType" class="form-control" name="accountType">
+          <option value="company">company</option>
+          <option value="natural-person">natural-person</option>
+          <option value="self-employed">self-employed</option>
+          <option value="temporary">temporary</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Account name:</label>
+        <input formControlName="name" type="text" id="name" class="form-control" name="name">
+      </div>
+
+      <div class="form-group">
+        <label for="marketType">Market type:</label>
+        <select formControlName="marketType" id="marketType" class="form-control" name="marketType">
+          <option value="B2B">B2B</option>
+          <option value="B2C">B2C</option>
+          <option value="B2G">B2G</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="endDate">End Date:</label>
+        <input formControlName="endDate" type="date" id="endDate" class="form-control" name="endDate">
+      </div>
+
+      <button [disabled]="!updateAccountForm.valid" style="margin-top: 20px" type="submit" class="submit-button">Update Account</button>
+    </form>
+  </div>
+</div>

@@ -12,6 +12,11 @@ export class ShowCustomerDetailsComponent implements OnInit {
 
   showUpdateForm = false
   showAccountForm = false
+  showContactForm = false
+  showAccountUpdateForm = false
+
+  accountIndex: number
+
   customerData: CustomerDetailsModel
   isLoading = false
   constructor(private customerDetailsService: CustomerDetailsService,
@@ -46,5 +51,26 @@ export class ShowCustomerDetailsComponent implements OnInit {
 
   onCloseAccountForm(event: any) {
     this.showAccountForm = event
+  }
+
+  onOpenContactForm() {
+    this.showContactForm = true
+  }
+
+  onCloseContactForm(event: any) {
+    this.showContactForm = event
+  }
+
+  onDeleteContact(i: number) {
+    this.customerDetailsService.deleteContact(i)
+  }
+
+  onOpenAccountUpdateForm(i: number) {
+    this.accountIndex = i
+    this.showAccountUpdateForm = true
+  }
+
+  onCloseAccountUpdateForm(event: any) {
+    this.showAccountUpdateForm = event
   }
 }

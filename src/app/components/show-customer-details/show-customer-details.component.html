@@ -7,6 +7,13 @@
 <div *ngIf="showAccountForm">
   <bss-create-account (showAccountForm)="onCloseAccountForm($event)" ></bss-create-account>
 </div>
+<div *ngIf="showContactForm">
+  <bss-create-contact (showContactForm)="onCloseContactForm($event)" ></bss-create-contact>
+</div>
+<div *ngIf="showAccountUpdateForm">
+  <bss-update-account [index]="accountIndex" (showUpdateAccountForm)="onCloseAccountUpdateForm($event)" ></bss-update-account>
+</div>
+
 <div *ngIf="!isLoading" class="container">
   <h1>Customer Details</h1>
   <div class="row">
@@ -29,7 +36,8 @@
       <div class="address-details">
         <h2>Address Details</h2>
         <ul>
-          <li *ngFor="let a of customerData.address" style="margin-top: 30px">
+          <li  *ngFor="let a of customerData.address; let i = index" style="margin-top: 30px">
+            <a style="float:right;" (click)="onDeleteContact(i)" class="btn btn-danger btn-sm" >-</a>
             <strong>Apartment:</strong> {{a.apartment}}<br>
             <strong>Building:</strong> {{a.building}}<br>
             <strong>Country:</strong> {{a.country}}<br>
@@ -40,17 +48,20 @@
             <strong>Street:</strong> {{a.street}}
           </li>
         </ul>
+        <button (click)="onOpenContactForm()" class="btn btn-dark btn-sm" >+</button>
       </div>
     </div>
     <div class="col-md-4">
       <div class="address-details">
         <h2>Account Details</h2>
         <ul>
-          <li *ngFor="let a of customerData.accounts" style="margin-top: 30px">
+          <li *ngFor="let a of customerData.accounts; let i = index" style="margin-top: 30px">
+            <a style="float:right;" (click)="onOpenAccountUpdateForm(i)" class="btn btn-dark btn-sm" >Edit</a>
             <strong>Id:</strong> {{a.accountId}}<br>
             <strong>Name:</strong> {{a.name}}<br>
             <strong>Type:</strong> {{a.accountType}}<br>
             <strong>Market Type:</strong> {{a.marketType}}<br>
+            <strong>Status:</strong> {{a.expiration ? 'In-active' : 'Active'}}<br>
           </li>
         </ul>
         <button (click)="onOpenAccountForm()" class="btn btn-dark btn-sm" >+</button>

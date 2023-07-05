@@ -1,0 +1,54 @@
+<div (click)="onCloseUpdateForm()" class="backdrop"></div>
+<div class="alert-box scroll-container">
+  <div class="container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
+
+      <h3>Account Details:</h3>
+
+      <div class="form-group">
+        <label for="role">Role:</label>
+        <select formControlName="role" id="role" class="form-control" name="role" >
+          <option value="billing">billing</option>
+          <option value="delivery">delivery</option>
+          <option value="home">home</option>
+          <option value="installation">installation</option>
+          <option value="marketing">marketing</option>
+          <option value="primary">primary</option>
+          <option value="work">work</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="apartment">Apartment:</label>
+        <input formControlName="apartment" type="text" id="apartment" class="form-control" name="apartment" >
+      </div>
+      <div class="form-group">
+        <label for="city">City:</label>
+        <input formControlName="city" type="text" id="city" class="form-control" name="city">
+      </div>
+      <div class="form-group">
+        <label for="country">Country:</label>
+        <select formControlName="country" id="country" class="form-control" name="country">
+          <option value="IN">India</option>
+          <option value="FI">Finland</option>
+          <option value="SW">Sweden</option>
+          <option value="ES">Spain</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="street">Street:</label>
+        <input formControlName="street" type="text" id="street" class="form-control" name="street" >
+      </div>
+      <div class="form-group">
+        <label for="postalCode">Postal Code:</label>
+        <input formControlName="postalCode" type="text" id="postalCode" class="form-control" name="postalCode">
+      </div>
+      <div class="form-group">
+        <label for="startDate">Date of Issue:</label>
+        <input formControlName="startDate" type="date" id="startDate" class="form-control" name="startDate">
+      </div>
+
+      <button [disabled]="!contactForm.valid" style="margin-top: 20px" type="submit" class="submit-button">Add Account</button>
+    </form>
+  </div>
+</div>

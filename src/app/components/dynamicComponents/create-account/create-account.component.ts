@@ -24,7 +24,6 @@ export class CreateAccountComponent implements OnInit {
       'startDate': new FormControl(null, Validators.required),
       'endDate': new FormControl(null, Validators.required),
     })
-
   }
 
   onSubmit() {

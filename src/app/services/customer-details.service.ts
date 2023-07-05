@@ -1,169 +1,12 @@
-// import { Injectable } from '@angular/core';
-// import { CustomerDetailsModel } from '../models/customer-details.model';
-// import {HttpClient, HttpParams} from "@angular/common/http";
-// import {catchError, Subject, throwError} from 'rxjs'
-// import {Router} from "@angular/router";
-// import { v4 as uuidv4 } from 'uuid';
-//
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class CustomerDetailsService {
-//
-//   API_URL = 'http://localhost:8080/customer/details/';
-//   customerChanged = new Subject<CustomerDetailsModel>()
-//   customerData: CustomerDetailsModel
-//   constructor(private http: HttpClient, private router: Router) { }
-//
-//   getCustomerDetails(idType: string, idCode: string) {
-//     let idParams = new HttpParams()
-//     idParams = idParams.append('id', idCode)
-//
-//     return this.http.get<CustomerDetailsModel>(
-//       this.API_URL + idType,
-//       {
-//         params: idParams,
-//       }
-//     ).pipe(catchError(err => {
-//       console.log(err.status)
-//       return throwError(err.error)
-//     }))
-//       .subscribe(data => {
-//         this.customerData = data
-//         this.customerChanged.next(this.customerData)
-//     }, errMsg => {
-//       this.router.navigate(['/not-found', errMsg])
-//     })
-//   }
-//
-//   createCustomerDetails(data: any) {
-//     const individual_uuid = uuidv4()
-//     const identifications_uuid = uuidv4()
-//     const contact_media_uuid = uuidv4()
-//     //console.log(this.datePipe.transform(new Date(data.identificationDetails.startDate), "yyyy-MM-dd"))
-//     console.log(data.contactDetails.startDate)
-//     console.log(data.identificationDetails.startDate, data.identificationDetails.endDate)
-//
-//     const body = {
-//       "data": {
-//       "type": "individuals-create",
-//         "relationships": {
-//         "new-instance": {
-//           "data": {
-//             "type": "individuals",
-//               "id": individual_uuid
-//           }
-//         }
-//       }
-//     },
-//       "included": [
-//       {
-//         "type": "individuals",
-//         "id": individual_uuid,
-//         "attributes": {
-//           "given-name": data.individualDetails.givenName,
-//           "family-name": data.individualDetails.familyName
-//         },
-//         "relationships": {
-//           "contact-media": {
-//             "data": [
-//               { "type": "contact-media", "id": contact_media_uuid }
-//             ]
-//           },
-//           "identifications": {
-//             "data": [
-//               { "type": "identifications", "id": identifications_uuid }
-//             ]
-//           }
-//         }
-//       },
-//       {
-//         "type": "identifications",
-//         "id": identifications_uuid,
-//         "attributes": {
-//           "identification-id": data.identificationDetails.idCode,
-//           "identification-type": data.identificationDetails.idType,
-//           "valid-for": {
-//             "meta": {
-//               "type": "valid-for-datetime"
-//             },
-//             "start-datetime": data.identificationDetails.startDate + 'T00:00:00.000Z',
-//             "end-datetime": data.identificationDetails.endDate + 'T00:00:00.000Z'
-//           }
-//         }
-//       },
-//       {
-//         "type": "contact-media",
-//         "id": contact_media_uuid,
-//         "attributes": {
-//           "medium-type": "postal-address",
-//           "role": data.contactDetails.role,
-//           "medium": {
-//             "meta": {
-//               "type": "postal-address"
-//             },
-//             "apartment": data.contactDetails.apartment,
-//             "building": data.contactDetails.building,
-//             "floor": data.contactDetails.floor,
-//             "state": data.contactDetails.state,
-//             "city": data.contactDetails.city,
-//             "country": data.contactDetails.country,
-//             "postal-code": data.contactDetails.postalCode,
-//             "street": data.contactDetails.street
-//           },
-//           "valid-for": {
-//             "meta": {
-//               "type": "valid-for-datetime"
-//             },
-//             "start-datetime": data.contactDetails.startDate + 'T00:00:00.000Z'
-//           }
-//         }
-//       },
-//     ]
-//     }
-//
-//     return this.http.post(
-//       'https://bssapi-qrp-demo.qvantel.systems/api/individuals-create',
-//       body
-//     )
-//   }
-//
-//   updateCustomerDetails(data: any) {
-//     let body: any = {
-//       "data": {
-//         "type": "individuals-update",
-//         "attributes": {},
-//         "relationships": {
-//           "instance": {
-//             "data": { "type": "individuals", "id": this.customerData.uuid }
-//           }
-//         }
-//       }
-//     }
-//
-//     Object.keys(data).forEach(key => {
-//       if(data[key]) {
-//         const kebabCaseKey: string = key.replace(/[A-Z]/g, (letter:string) => `-${letter.toLowerCase()}`)
-//         body.data.attributes[kebabCaseKey] = data[key]
-//       }
-//     })
-//
-//     return this.http.post(
-//       'https://bssapi-qrp-demo.qvantel.systems/api/individuals-update',
-//       body
-//     )
-//   }
-// }
-
 import { Injectable } from '@angular/core';
 import { CustomerDetailsModel } from '../models/customer-details.model';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {catchError, Subject, throwError, map} from 'rxjs'
 import {Router} from "@angular/router";
 import { v4 as uuidv4 } from 'uuid';
-import {animate} from "@angular/animations";
 import {AddressDetailsModel} from "../models/address-details.model";
 import {AccountDetailsModel} from "../models/account-details.model";
+import {DatePipe} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -173,14 +16,17 @@ export class CustomerDetailsService {
   API_URL = 'https://bssapi-qrp-demo.qvantel.systems/api/identifications?filter=%28AND%20%28EQ%20identification-id%20%229898989898%22%29%20%28EQ%20identification-type%20%22passport%22%29%29&include=party.contact-media';
   customerChanged = new Subject<CustomerDetailsModel>()
   customerData: CustomerDetailsModel
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private datePipe: DatePipe) { }
 
   private convertToCustomerData(data: any): CustomerDetailsModel {
     const included = data['included']
     const contactMedias = included.filter((inData: any) => inData.type == 'contact-media')
     const postalAddresses = contactMedias.filter((contactMedia: any) => contactMedia.attributes['medium-type'] === 'postal-address')
-    const addresses = postalAddresses.map((postalAddress: any) => {
+    const addresses: AddressDetailsModel[] = postalAddresses.map((postalAddress: any) => {
+
+      console.log(new Date(postalAddress.attributes['valid-for']['end-datetime']) >= new Date())
       return new AddressDetailsModel(
+        postalAddress.id,
         postalAddress.attributes.medium['apartment'] ? postalAddress.attributes.medium['apartment'] : '',
         postalAddress.attributes.medium['building'] ? postalAddress.attributes.medium['building'] : '',
         postalAddress.attributes.medium['city'] ? postalAddress.attributes.medium['city'] : '',
@@ -188,17 +34,20 @@ export class CustomerDetailsService {
         postalAddress.attributes.medium['floor'] ? postalAddress.attributes.medium['floor'] : '',
         postalAddress.attributes.medium['postal-code'] ? postalAddress.attributes.medium['postal-code'] : '',
         postalAddress.attributes.medium['state'] ? postalAddress.attributes.medium['state'] : '',
-        postalAddress.attributes.medium['street'] ? postalAddress.attributes.medium['street'] : ''
-    )
-    })
+        postalAddress.attributes.medium['street'] ? postalAddress.attributes.medium['street'] : '',
+        (postalAddress.attributes['valid-for']['end-datetime'] && (new Date(postalAddress.attributes['valid-for']['end-datetime']) <= new Date()))
+      )
+    }).filter((address: AddressDetailsModel) => !address.expiration)
 
     const customerAccounts = included.filter((inData: any) => inData.type === 'customer-accounts')
     const accounts = customerAccounts.map((customerAccount: any) => {
       return new AccountDetailsModel(
+        customerAccount.id,
         customerAccount.attributes['account-id'] ? customerAccount.attributes['account-id'] : '',
         customerAccount.attributes['name'] ? customerAccount.attributes['name'] : '',
         customerAccount.attributes['account-type'] ? customerAccount.attributes['account-type'] : '',
         customerAccount.attributes['market-type'] ? customerAccount.attributes['market-type'] : '',
+        (customerAccount.attributes['valid-for']['end-datetime'] && (new Date(customerAccount.attributes['valid-for']['end-datetime']) <= new Date()))
       )
     })
 
@@ -407,6 +256,107 @@ export class CustomerDetailsService {
     )
   }
 
+  createContact(data: any) {
+    const cm_uuid = uuidv4()
+    let body: any = {
+      "data": {
+        "type": "contact-media-create",
+        "relationships": {
+          "new-instance": {
+            "data": { "type": "contact-media", "id": cm_uuid }
+          }
+        }
+      },
+      "included": [
+        {
+          "type": "contact-media",
+          "id": cm_uuid,
+          "attributes": {
+            "role": data.role,
+            "medium-type": "postal-address",
+            "medium": {
+              "meta": {
+                "type": "postal-address"
+              },
+              "apartment": data.apartment,
+              "building": data.building,
+              "country": data.country,
+              "city": data.city,
+              "floor": data.floor,
+              "postal-code": data.postalCode,
+              "state": data.state,
+              "street": data.street,
+            },
+            "valid-for": {
+              "meta": {
+                "type": "valid-for-datetime"
+              },
+              "start-datetime": data.startDate + 'T00:00:00.000Z'
+            }
+          },
+          "relationships": {
+            "party": {
+              "data": { "type": "individuals", "id": this.customerData.uuid }
+            }
+          }
+        }
+      ]
+    }
+
+    return this.http.post(
+      'https://bssapi-qrp-demo.qvantel.systems/api/contact-media-create',
+      body
+    )
+  }
+
+  deleteContact(i: number) {
+    this.http.post(
+      'https://bssapi-qrp-demo.qvantel.systems/api/contact-media-terminate',
+      {
+        "data": {
+          "type": "contact-media-terminate",
+
+          "attributes": {
+            "end-datetime": new Date().toISOString()
+          },
+          "relationships": {
+            "instance": {
+              "data": { "type": "contact-media", "id": this.customerData.address[i].uuid }
+            }
+          }
+        }
+      }
+    ).subscribe(res => {
+      console.log(res)
+      alert("Contact is deleted. Reload the page to get changes!")
+    }, error => {
+      console.log(error)
+      this.router.navigate(['/not-found', error.error])
+    })
+  }
+
+  updateAccount(data: any, i: number) {
+    return this.http.post(
+      'https://bssapi-qrp-demo.qvantel.systems/api/customer-accounts-update',
+      {
+        "data": {
+          "type": "customer-accounts-update",
+          "attributes": {
+            "end-datetime": new Date(data.endDate).toISOString(),
+            "name": data.name,
+            "account-type": data.type,
+            "market-type": data.marketType,
+          },
+          "relationships": {
+            "instance": {
+              "data": { "type": "customer-accounts", "id": this.customerData.accounts[i].uuid }
+            }
+          }
+        }
+      }
+    )
+  }
+
   updateCustomerDetails(data: any) {
     let body: any = {
       "data": {
@@ -433,4 +383,3 @@ export class CustomerDetailsService {
     )
   }
 }
-

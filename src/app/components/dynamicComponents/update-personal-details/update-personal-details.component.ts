@@ -42,6 +42,7 @@ export class UpdatePersonalDetailsComponent implements OnInit {
         this.showUpdateForm.emit(false)
         alert('Customer is updated. Reload the page to get changes!')
       }, error => {
+        console.log(error)
         this.router.navigate(['/not-found', error.error])
         this.showUpdateForm.emit(false)
       })

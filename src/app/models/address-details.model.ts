@@ -1,4 +1,5 @@
 export class AddressDetailsModel {
+  public uuid: string
   public apartment: string
   public building: string
   public city: string
@@ -7,8 +8,10 @@ export class AddressDetailsModel {
   public postal_code: string
   public state: string
   public street: string
+  public expiration: boolean
 
   constructor(
+    uuid: string,
     apartment: string,
     building: string,
     city: string,
@@ -16,7 +19,9 @@ export class AddressDetailsModel {
     floor: string,
     postalCode: string,
     state: string,
-    street: string) {
+    street: string,
+    expiration: boolean) {
+    this.uuid = uuid
     this.apartment = apartment
     this.building = building
     this.city = city
@@ -25,5 +30,6 @@ export class AddressDetailsModel {
     this.postal_code = postalCode
     this.state = state
     this.street = street
+    this.expiration = expiration
   }
 }

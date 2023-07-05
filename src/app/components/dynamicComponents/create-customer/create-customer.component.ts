@@ -52,6 +52,7 @@ export class CreateCustomerComponent implements OnInit {
         this.message.emit(`Customer with ID-TYPE: ${this.createCustomerForm.value.identificationDetails.idType} and ID: ${this.createCustomerForm.value.identificationDetails.idCode} is created!`)
         this.onClose()
     }, error => {
+        console.log(error)
         this.router.navigate(['/not-found', error.error])
         this.onClose()
     })

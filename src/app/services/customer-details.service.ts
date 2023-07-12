@@ -2,18 +2,17 @@ import { Injectable } from '@angular/core';
 import { CustomerDetailsModel } from '../models/customer-details.model';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {catchError, Subject, throwError, map} from 'rxjs'
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import { v4 as uuidv4 } from 'uuid';
 import {AddressDetailsModel} from "../models/address-details.model";
 import {AccountDetailsModel} from "../models/account-details.model";
-import {DatePipe} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerDetailsService {
 
-  API_URL = 'https://bssapi-qrp-demo.qvantel.systems/api/identifications?filter=%28AND%20%28EQ%20identification-id%20%229898989898%22%29%20%28EQ%20identification-type%20%22passport%22%29%29&include=party.contact-media';
+  BASE_URL = 'http://10.150.6.225:3010';
   customerChanged = new Subject<CustomerDetailsModel>()
   customerData: CustomerDetailsModel
   constructor(private http: HttpClient,
@@ -76,7 +75,7 @@ export class CustomerDetailsService {
     console.log(idType, idCode)
 
     return this.http.get<any>(
-      `https://bssapi-qrp-demo.qvantel.systems/api/identifications?filter=%28AND%20%28EQ%20identification-id%20%22${idCode}%22%29%20%28EQ%20identification-type%20%22${idType}%22%29%29&include=party.contact-media,party.customer-accounts`,
+        this.BASE_URL + `/api/identifications?filter=%28AND%20%28EQ%20identification-id%20%22${idCode}%22%29%20%28EQ%20identification-type%20%22${idType}%22%29%29&include=party.contact-media,party.customer-accounts`,
       {
         params: idParams,
       }
@@ -254,7 +253,7 @@ export class CustomerDetailsService {
     }
 
     return this.http.post(
-      'https://bssapi-qrp-demo.qvantel.systems/api/customer-accounts-create',
+      this.BASE_URL + '/api/customer-accounts-create',
       body
     )
   }
@@ -307,14 +306,14 @@ export class CustomerDetailsService {
     }
 
     return this.http.post(
-      'https://bssapi-qrp-demo.qvantel.systems/api/contact-media-create',
+      this.BASE_URL + '/api/contact-media-create',
       body
     )
   }
 
   deleteContact(i: number) {
     return this.http.post(
-      'https://bssapi-qrp-demo.qvantel.systems/api/contact-media-terminate',
+      this.BASE_URL + '/api/contact-media-terminate',
       {
         "data": {
           "type": "contact-media-terminate",
@@ -334,7 +333,7 @@ export class CustomerDetailsService {
 
   updateAccount(data: any, i: number) {
     return this.http.post(
-      'https://bssapi-qrp-demo.qvantel.systems/api/customer-accounts-update',
+      this.BASE_URL + '/api/customer-accounts-update',
       {
         "data": {
           "type": "customer-accounts-update",
@@ -375,7 +374,7 @@ export class CustomerDetailsService {
     })
 
     return this.http.post(
-      'https://bssapi-qrp-demo.qvantel.systems/api/individuals-update',
+      this.BASE_URL + '/api/individuals-update',
       body
     )
   }

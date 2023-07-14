@@ -12,7 +12,7 @@ import {AccountDetailsModel} from "../models/account-details.model";
 })
 export class CustomerDetailsService {
 
-  BASE_URL = 'http://10.150.6.225:3010';
+  BASE_URL = 'https://bssapi-qrp-devint-fleet.qvantel.systems';
   customerChanged = new Subject<CustomerDetailsModel>()
   customerData: CustomerDetailsModel
   constructor(private http: HttpClient,

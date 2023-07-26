@@ -47,15 +47,18 @@ export class CreateCustomerComponent implements OnInit {
 
   onSubmit() {
     this.customerDetailsService.createCustomerDetails(this.createCustomerForm.value)
-      .subscribe(res => {
-        this.router.navigate(['/'])
-        this.message.emit(`Customer with ID-TYPE: ${this.createCustomerForm.value.identificationDetails.idType} and ID: ${this.createCustomerForm.value.identificationDetails.idCode} is created!`)
-        this.onClose()
-    }, error => {
-        console.log(error)
-        this.router.navigate(['/not-found', error.error])
-        this.onClose()
-    })
+      .subscribe({
+        next: res => {
+          this.router.navigate(['/'])
+          this.message.emit(`Customer with ID-TYPE: ${this.createCustomerForm.value.identificationDetails.idType} and ID: ${this.createCustomerForm.value.identificationDetails.idCode} is created!`)
+          this.onClose()
+        },
+        error: error => {
+          console.log(error)
+          this.router.navigate(['/not-found', error.error])
+          this.onClose()
+        }
+      })
   }
 
   // onTest() {

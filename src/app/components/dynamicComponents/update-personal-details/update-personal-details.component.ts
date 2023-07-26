@@ -37,19 +37,22 @@ export class UpdatePersonalDetailsComponent implements OnInit {
 
   onSubmit() {
     this.customerDetailsService.updateCustomerDetails(this.updateForm.value)
-      .subscribe(res => {
-        console.log(res)
-        this.showUpdateForm.emit(false)
+      .subscribe({
+        next: res => {
+          console.log(res)
+          this.showUpdateForm.emit(false)
 
-        this.route.params
-          .subscribe((params: Params) => {
-            this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
-          })
+          this.route.params
+            .subscribe((params: Params) => {
+              this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
+            })
 
-      }, error => {
-        console.log(error)
-        this.router.navigate(['/not-found', error.error])
-        this.showUpdateForm.emit(false)
+        },
+        error: error => {
+          console.log(error)
+          this.router.navigate(['/not-found', error.error])
+          this.showUpdateForm.emit(false)
+        }
       })
   }
 

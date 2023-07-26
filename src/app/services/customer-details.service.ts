@@ -81,14 +81,17 @@ export class CustomerDetailsService {
       }
     ).pipe(map((data: any) => {
       return this.convertToCustomerData(data)
-    }),catchError(err => {
+    }), catchError(err => {
       return throwError(err.error)
     }))
-      .subscribe(data => {
-        this.customerData = data
-        this.customerChanged.next(this.customerData)
-      }, errMsg => {
-        this.router.navigate(['/not-found', errMsg ? errMsg : 'Customer not found!'])
+      .subscribe({
+        next: data => {
+          this.customerData = data
+          this.customerChanged.next(this.customerData)
+        },
+        error: errMsg => {
+          this.router.navigate(['/not-found', errMsg ? errMsg : 'Customer not found!'])
+        }
       })
   }
 
@@ -178,7 +181,7 @@ export class CustomerDetailsService {
     return this.http.post(
       'https://bssapi-qrp-demo.qvantel.systems/api/individuals-create',
       body
-    )
+    ).pipe(catchError(err => throwError(err.error)))
   }
 
   createAccount(data: any) {
@@ -255,7 +258,7 @@ export class CustomerDetailsService {
     return this.http.post(
       this.BASE_URL + '/api/customer-accounts-create',
       body
-    )
+    ).pipe(catchError(err => throwError(err.error)))
   }
 
   createContact(data: any) {
@@ -308,7 +311,7 @@ export class CustomerDetailsService {
     return this.http.post(
       this.BASE_URL + '/api/contact-media-create',
       body
-    )
+    ).pipe(catchError(err => throwError(err.error)))
   }
 
   deleteContact(i: number) {
@@ -328,7 +331,7 @@ export class CustomerDetailsService {
           }
         }
       }
-    )
+    ).pipe(catchError(err => throwError(err.error)))
   }
 
   updateAccount(data: any, i: number) {
@@ -350,7 +353,7 @@ export class CustomerDetailsService {
           }
         }
       }
-    )
+    ).pipe(catchError(err => throwError(err.error)))
   }
 
   updateCustomerDetails(data: any) {
@@ -376,6 +379,6 @@ export class CustomerDetailsService {
     return this.http.post(
       this.BASE_URL + '/api/individuals-update',
       body
-    )
+    ).pipe(catchError(err => throwError(err.error)))
   }
 }

@@ -28,18 +28,21 @@ export class CreateAccountComponent implements OnInit {
 
   onSubmit() {
     this.customerDetailsService.createAccount(this.accountForm.value)
-      .subscribe(res => {
-        console.log(res)
-        this.showAccountForm.emit(false)
+      .subscribe({
+        next: res => {
+          console.log(res)
+          this.showAccountForm.emit(false)
 
-        this.route.params
-          .subscribe((params: Params) => {
-            this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
-          })
-      },error => {
-        console.log(error)
-        this.router.navigate(['/not-found', error.error])
-        this.showAccountForm.emit(false)
+          this.route.params
+            .subscribe((params: Params) => {
+              this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
+            })
+        },
+        error: error => {
+          console.log(error)
+          this.router.navigate(['/not-found', error.error])
+          this.showAccountForm.emit(false)
+        }
       })
   }
 

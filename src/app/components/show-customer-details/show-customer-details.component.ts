@@ -63,16 +63,19 @@ export class ShowCustomerDetailsComponent implements OnInit {
 
   onDeleteContact(i: number) {
     this.customerDetailsService.deleteContact(i)
-      .subscribe(res => {
-      console.log(res)
-      this.route.params
-        .subscribe((params: Params) => {
-          this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
-        })
-    }, error => {
-      console.log(error)
-      this.router.navigate(['/not-found', error.error])
-    })
+      .subscribe({
+        next: res => {
+          console.log(res)
+          this.route.params
+            .subscribe((params: Params) => {
+              this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
+            })
+        },
+        error: error => {
+          console.log(error)
+          this.router.navigate(['/not-found', error.error])
+        }
+      })
   }
 
   onOpenAccountUpdateForm(i: number) {

@@ -30,18 +30,21 @@ export class UpdateAccountComponent implements OnInit {
 
   onSubmit() {
     this.customerDetailsService.updateAccount(this.updateAccountForm.value, this.index)
-      .subscribe(res => {
-        console.log(res)
-        this.showUpdateAccountForm.emit(false)
+      .subscribe({
+        next: res => {
+          console.log(res)
+          this.showUpdateAccountForm.emit(false)
 
-        this.route.params
-          .subscribe((params: Params) => {
-            this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
-          })
-      }, error => {
-        console.log(error)
-        this.router.navigate(['/not-found', error.error])
-        this.showUpdateAccountForm.emit(false)
+          this.route.params
+            .subscribe((params: Params) => {
+              this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
+            })
+        },
+        error: error => {
+          console.log(error)
+          this.router.navigate(['/not-found', error.error])
+          this.showUpdateAccountForm.emit(false)
+        }
       })
   }
 

@@ -34,18 +34,21 @@ export class CreateContactComponent implements OnInit {
 
   onSubmit() {
     this.customerDetailsService.createContact(this.contactForm.value)
-      .subscribe(res => {
-        console.log(res)
-        this.showContactForm.emit(false)
+      .subscribe({
+        next: res => {
+          console.log(res)
+          this.showContactForm.emit(false)
 
-        this.route.params
-          .subscribe((params: Params) => {
-            this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
-          })
-      },error => {
-        console.log(error)
-        this.router.navigate(['/not-found', error.error])
-        this.showContactForm.emit(false)
+          this.route.params
+            .subscribe((params: Params) => {
+              this.customerDetailsService.getCustomerDetails(params['idType'], params['idCode'])
+            })
+        },
+        error: error => {
+          console.log(error)
+          this.router.navigate(['/not-found', error.error])
+          this.showContactForm.emit(false)
+        }
       })
   }
 
